@@ -1,0 +1,4 @@
+slug,sku,name_ar,short_name_ar,subtitle_ar,hook_ar,cause_number,cause_name_ar,category,requires_supplement_warnings,base_price_sar,stock_count,low_stock_threshold,content_key,sort_order,is_active
+redensyl-copper-peptide-serum,OSL-SER-30,سيروم ريدنسل ٣٪ وببتيدات النحاس,سيروم الأصول,لفراغات وتساقط الشعر,"يشتغل على البصيلة، مو على الشعرة",1,البصيلة النائمة,cosmetic_leave_on,false,199,240,30,serum,1,true
+iron-bisglycinate-vitamin-c-tonic,OSL-TON-30,تونك حديد بيسجليسينات وفيتامين C,تونك الأصول,لدعم الشعر المتساقط والإرهاق,التساقط ما يوقف لو المخزون من جوّه فاضي,2,المخزون الفاضي,supplement_oral,true,199,180,30,tonic,2,true
+salicylic-2-zinc-scalp-exfoliant,OSL-EXF-100,مقشّر فروة ساليسيليك ٢٪ وزنك,مقشّر الأصول,لتراكمات وحكة الفروة,فروة نظيفة = بصيلة تتنفّس,3,الفروة المخنوقة,cosmetic_rinse_off,false,199,210,30,exfoliant,3,true

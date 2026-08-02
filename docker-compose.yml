@@ -1,0 +1,43 @@
+# Local development only. Production Postgres already exists on EasyPanel.
+# See docs/26 §5.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: osool
+      POSTGRES_PASSWORD: osool
+      POSTGRES_DB: osool
+    ports: ["5432:5432"]
+    volumes: ["osool_pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U osool"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    env_file: ./backend/.env
+    environment:
+      DATABASE_URL: postgres://osool:osool@db:5432/osool?sslmode=disable
+      ENV: development
+      CORS_ORIGINS: http://localhost:3000
+    ports: ["8000:8000"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+        NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        NEXT_PUBLIC_WHATSAPP_NUMBER: "9665XXXXXXXX"
+    env_file: ./frontend/.env
+    ports: ["3000:3000"]
+    depends_on: [backend]
+
+volumes:
+  osool_pgdata:
