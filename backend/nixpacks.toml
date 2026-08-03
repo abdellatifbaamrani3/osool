@@ -1,0 +1,4 @@
+# Fallback if EasyPanel builder is Nixpacks instead of Dockerfile.
+# Prefer Dockerfile in EasyPanel Build settings.
+[start]
+cmd = "sh docker-entrypoint.sh"

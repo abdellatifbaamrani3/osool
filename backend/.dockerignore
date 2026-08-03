@@ -15,5 +15,3 @@ venv
 htmlcov
 tests
 .DS_Store
-Dockerfile
-.dockerignore

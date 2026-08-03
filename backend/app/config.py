@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import secrets
 from functools import lru_cache
 from typing import Literal
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
@@ -65,12 +66,25 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    @field_validator("DATABASE_URL", "CORS_ORIGINS", "ADMIN_TOKEN")
+    @field_validator("DATABASE_URL", "CORS_ORIGINS")
     @classmethod
     def required_non_empty(cls, v: str) -> str:
         if not v or not str(v).strip():
             raise ValueError("required but not set")
         return v.strip()
+
+    @field_validator("ADMIN_TOKEN", mode="before")
+    @classmethod
+    def ensure_admin_token(cls, v: object) -> str:
+        # Pasting .env.example with ADMIN_TOKEN= empty is a common EasyPanel crash.
+        if v is None or not str(v).strip():
+            token = secrets.token_hex(32)
+            print(
+                "[osool] WARN: ADMIN_TOKEN was empty — generated a temporary token. "
+                "Set a stable ADMIN_TOKEN in EasyPanel Environment, then redeploy."
+            )
+            return token
+        return str(v).strip()
 
     @property
     def async_url(self) -> str:
