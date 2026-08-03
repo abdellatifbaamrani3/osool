@@ -4,7 +4,7 @@ set -e
 
 echo "[osool] preflight: checking required env…"
 missing=0
-for key in DATABASE_URL CORS_ORIGINS ADMIN_TOKEN; do
+for key in DATABASE_URL CORS_ORIGINS; do
   eval "val=\$$key"
   if [ -z "$val" ]; then
     echo "[osool] FATAL: $key is empty or missing. Set it in EasyPanel Environment." >&2
@@ -13,6 +13,14 @@ for key in DATABASE_URL CORS_ORIGINS ADMIN_TOKEN; do
 done
 if [ "$missing" -ne 0 ]; then
   exit 1
+fi
+
+# Empty ADMIN_TOKEN from .env.example paste is a common EasyPanel crash.
+if [ -z "$ADMIN_TOKEN" ]; then
+  ADMIN_TOKEN=$(python -c 'import secrets; print(secrets.token_hex(32))')
+  export ADMIN_TOKEN
+  echo "[osool] WARN: ADMIN_TOKEN was empty — generated a temporary token."
+  echo "[osool] WARN: Set a stable ADMIN_TOKEN in EasyPanel Environment, then redeploy."
 fi
 
 # Help diagnose wrong internal DB hostname (common EasyPanel mistake).
