@@ -70,18 +70,28 @@ export function isPhoneWhitelisted(national: string): boolean {
     .includes(national);
 }
 
-/** Best-effort client IP behind EasyPanel / reverse proxies. */
+/** Best-effort client IP behind Cloudflare / EasyPanel / Traefik. */
 export function clientIpFromHeaders(headers: Headers): string | null {
+  // Cloudflare sets the real visitor IP — prefer it over possibly-rewritten XFF.
+  const cf = headers.get("cf-connecting-ip")?.trim();
+  if (cf && !isPrivateOrLocal(cf)) return cf;
+
+  const real = headers.get("x-real-ip")?.trim();
+  if (real && !isPrivateOrLocal(real)) return real;
+
   const forwarded = headers.get("x-forwarded-for");
   if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
+    const parts = forwarded.split(",").map((p) => p.trim()).filter(Boolean);
+    // Prefer the first public hop; Traefik often appends private/proxy IPs.
+    for (const part of parts) {
+      if (!isPrivateOrLocal(part)) return part;
+    }
   }
-  const real = headers.get("x-real-ip")?.trim();
-  if (real) return real;
-  const cf = headers.get("cf-connecting-ip")?.trim();
-  if (cf) return cf;
-  return null;
+
+  const trueClient = headers.get("true-client-ip")?.trim();
+  if (trueClient && !isPrivateOrLocal(trueClient)) return trueClient;
+
+  return cf || real || null;
 }
 
 function isPrivateOrLocal(ip: string): boolean {
@@ -143,12 +153,11 @@ export async function assertOrderAllowedByIp(
 
   const ip = clientIpFromHeaders(headers);
   if (!ip || isPrivateOrLocal(ip)) {
-    return {
-      ok: false,
-      code: "ip_unavailable",
-      message_ar: messageFor("ip_unavailable"),
-      ip,
-    };
+    // Behind some reverse proxies we only see a private hop — don't hard-block checkout.
+    console.warn(
+      `[osool] WARN: no public client IP (got ${ip ?? "null"}) — geo gate skipped`,
+    );
+    return { ok: true, ip: ip ?? "unknown", country: null, skipped: true };
   }
 
   const auth = Buffer.from(`${creds.accountId}:${creds.licenseKey}`).toString(
@@ -168,23 +177,17 @@ export async function assertOrderAllowedByIp(
     });
 
     if (!res.ok) {
-      console.error(`[osool] MaxMind Insights HTTP ${res.status} for ${ip}`);
-      return {
-        ok: false,
-        code: "ip_unavailable",
-        message_ar: messageFor("ip_unavailable"),
-        ip,
-      };
+      // Auth / plan / quota errors — fail open so a bad key does not kill sales.
+      const body = await res.text().catch(() => "");
+      console.error(
+        `[osool] MaxMind Insights HTTP ${res.status} for ${ip}: ${body.slice(0, 200)} — geo gate skipped`,
+      );
+      return { ok: true, ip, country: null, skipped: true };
     }
     data = (await res.json()) as InsightsResponse;
   } catch (err) {
-    console.error("[osool] MaxMind Insights request failed", err);
-    return {
-      ok: false,
-      code: "ip_unavailable",
-      message_ar: messageFor("ip_unavailable"),
-      ip,
-    };
+    console.error("[osool] MaxMind Insights request failed — geo gate skipped", err);
+    return { ok: true, ip, country: null, skipped: true };
   }
 
   const country =
