@@ -31,11 +31,9 @@ echo "[osool] ENV = ${ENV:-unset}"
 echo "[osool] waiting for database…"
 python -m app.wait_for_db
 
-echo "[osool] running migrations…"
-alembic upgrade head
-
-echo "[osool] seeding…"
-python -m app.seed
+# Migrations/seed are not run on boot anymore — run manually when needed:
+#   alembic upgrade head && python -m app.seed
+echo "[osool] skipping migrations and seed on boot"
 
 echo "[osool] starting uvicorn…"
 PORT="${PORT:-8000}"
