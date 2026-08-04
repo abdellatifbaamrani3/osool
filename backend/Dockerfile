@@ -20,7 +20,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
 
 USER osool
 EXPOSE 8000
-HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=200s --retries=5 \
   CMD curl -fsS http://localhost:8000/health || exit 1
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

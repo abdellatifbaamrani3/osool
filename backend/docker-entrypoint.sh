@@ -38,7 +38,8 @@ echo "[osool] seeding…"
 python -m app.seed
 
 echo "[osool] starting uvicorn…"
+PORT="${PORT:-8000}"
 exec uvicorn app.main:app \
-  --host 0.0.0.0 --port 8000 \
+  --host 0.0.0.0 --port "$PORT" \
   --workers 2 \
   --proxy-headers --forwarded-allow-ips='*'
