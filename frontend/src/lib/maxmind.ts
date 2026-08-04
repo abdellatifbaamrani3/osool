@@ -173,7 +173,7 @@ export async function assertOrderAllowedByIp(
         Accept: "application/json",
       },
       cache: "no-store",
-      signal: AbortSignal.timeout(4000),
+      signal: AbortSignal.timeout(2500),
     });
 
     if (!res.ok) {

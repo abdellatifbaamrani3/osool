@@ -82,6 +82,7 @@ export function CheckoutModal() {
           event_id: eventId,
           client_ts: new Date(openedAt).toISOString(),
         }),
+        signal: AbortSignal.timeout(20000),
       });
 
       const data = (await res.json()) as {
@@ -91,7 +92,6 @@ export function CheckoutModal() {
 
       if (!res.ok || !data.id) {
         setFormError(data.message_ar ?? ar.checkout.errorGeneric);
-        setSubmitting(false);
         return;
       }
 
@@ -112,6 +112,7 @@ export function CheckoutModal() {
       router.push(`/thank-you/${data.id}`);
     } catch {
       setFormError(ar.checkout.errorGeneric);
+    } finally {
       setSubmitting(false);
     }
   }
