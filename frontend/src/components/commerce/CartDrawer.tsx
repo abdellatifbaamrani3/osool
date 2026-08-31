@@ -10,6 +10,7 @@ import { addDefaultOffer, useCart } from "@/store/cart";
 import { Button, ButtonLink } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { ProductImage } from "@/components/commerce/ProductImage";
 
 export function CartDrawer() {
   const {
@@ -96,18 +97,29 @@ export function CartDrawer() {
           ) : (
             <>
               <ul className="space-y-4">
-                {lines.map((line) => (
-                  <li
-                    key={line.key}
-                    className="flex gap-3 rounded-[var(--radius-lg)] bg-white p-3 ring-1 ring-sand-200"
-                  >
-                    <div className="size-16 shrink-0 overflow-hidden rounded-[var(--radius-md)]">
-                      <PlaceholderImage
-                        label={line.shortName}
-                        ratio="1/1"
-                        className="rounded-none ring-0"
-                      />
-                    </div>
+                {lines.map((line) => {
+                  const product = products.find((p) => p.slug === line.slug);
+                  return (
+                    <li
+                      key={line.key}
+                      className="flex gap-3 rounded-[var(--radius-lg)] bg-white p-3 ring-1 ring-sand-200"
+                    >
+                      <div className="size-16 shrink-0 overflow-hidden rounded-[var(--radius-md)]">
+                        {product ? (
+                          <ProductImage
+                            product={product}
+                            ratio="1/1"
+                            className="rounded-none ring-0"
+                            sizes="64px"
+                          />
+                        ) : (
+                          <PlaceholderImage
+                            label={line.shortName}
+                            ratio="1/1"
+                            className="rounded-none ring-0"
+                          />
+                        )}
+                      </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-body font-medium text-brand-900">
                         {line.shortName}
@@ -162,7 +174,8 @@ export function CartDrawer() {
                       </div>
                     </div>
                   </li>
-                ))}
+                  );
+                })}
               </ul>
 
               <div className="mt-6">
@@ -183,10 +196,11 @@ export function CartDrawer() {
                           className="flex gap-3 rounded-[var(--radius-lg)] bg-white p-3 ring-1 ring-sand-200"
                         >
                           <div className="size-20 shrink-0 overflow-hidden rounded-[var(--radius-md)]">
-                            <PlaceholderImage
-                              label={product.shortName}
+                            <ProductImage
+                              product={product}
                               ratio="1/1"
                               className="rounded-none ring-0"
+                              sizes="80px"
                             />
                           </div>
                           <div className="min-w-0 flex-1">

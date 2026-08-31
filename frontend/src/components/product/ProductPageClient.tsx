@@ -16,11 +16,23 @@ import { Accordion } from "@/components/ui/Accordion";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Rating } from "@/components/ui/Rating";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SplitSection } from "@/components/sections/SplitSection";
+import { ProductImage } from "@/components/commerce/ProductImage";
 import { useCart } from "@/store/cart";
+
+/**
+ * Some benefit lines open with a Latin active (Redensyl, PDRN) before switching
+ * to Arabic. Without isolation the bidi algorithm drags the trailing punctuation
+ * to the wrong side of the name.
+ */
+function splitLeadingLatin(text: string): [string, string] {
+  const firstArabic = text.search(/[\u0600-\u06FF]/);
+  if (firstArabic <= 0 || !/^[A-Za-z]/.test(text)) return ["", text];
+  const head = text.slice(0, firstArabic).replace(/[\s+\u2014\u2013-]+$/, "");
+  return [head, text.slice(head.length)];
+}
 
 export function ProductPageClient({ product }: { product: Product }) {
   const addOffer = useCart((s) => s.addOffer);
@@ -65,26 +77,17 @@ export function ProductPageClient({ product }: { product: Product }) {
           <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="order-1 lg:order-2">
               <div className="relative">
-                <PlaceholderImage
-                  label={product.name}
+                <ProductImage
+                  product={product}
                   ratio="1/1"
                   className="mx-auto max-w-lg lg:max-w-none"
+                  priority
                 />
                 <div className="absolute start-4 top-4">
                   <Badge>
                     {ar.common.causeOf} {causeNumerals[product.causeNumber]}
                   </Badge>
                 </div>
-              </div>
-              <div className="mt-3 grid grid-cols-4 gap-2">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <PlaceholderImage
-                    key={i}
-                    label={`${product.shortName} ${i + 2}`}
-                    ratio="1/1"
-                    className="ring-1 ring-sand-200"
-                  />
-                ))}
               </div>
             </div>
 
@@ -105,24 +108,27 @@ export function ProductPageClient({ product }: { product: Product }) {
               </div>
 
               <ul className="mt-6 space-y-3">
-                {product.benefits.map((b) => (
-                  <li key={b} className="flex gap-3 text-body text-ink-soft">
-                    <Check
-                      className="mt-0.5 size-5 shrink-0 text-gold-600"
-                      aria-hidden
-                    />
-                    <span>
-                      {b.includes("Redensyl") ? (
-                        <>
-                          <LTR>Redensyl 3%</LTR>
-                          {b.replace("Redensyl 3%", "")}
-                        </>
-                      ) : (
-                        b
-                      )}
-                    </span>
-                  </li>
-                ))}
+                {product.benefits.map((b) => {
+                  const [latin, rest] = splitLeadingLatin(b);
+                  return (
+                    <li key={b} className="flex gap-3 text-body text-ink-soft">
+                      <Check
+                        className="mt-0.5 size-5 shrink-0 text-gold-600"
+                        aria-hidden
+                      />
+                      <span>
+                        {latin ? (
+                          <>
+                            <LTR>{latin}</LTR>
+                            {rest}
+                          </>
+                        ) : (
+                          b
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
 
               <div className="mt-8">
@@ -314,6 +320,17 @@ export function ProductPageClient({ product }: { product: Product }) {
               </p>
               <p className="mt-2 text-body text-ink-soft">
                 اطلب تحليل فيريتين من أي مختبر. ما نبيعه — بس ننصح به بصدق.
+              </p>
+            </div>
+          ) : null}
+
+          {product.comparisonNote ? (
+            <div className="mx-auto mt-8 max-w-2xl rounded-[var(--radius-lg)] bg-white p-6 ring-1 ring-sand-200">
+              <p className="text-h3 text-brand-900">
+                {product.comparisonTitle}
+              </p>
+              <p className="mt-3 text-body text-ink-soft">
+                {product.comparisonNote}
               </p>
             </div>
           ) : null}

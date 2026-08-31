@@ -5,7 +5,7 @@ import { ar } from "@/content/ar";
 import type { Offer, Product } from "@/content/products";
 import { Button } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
+import { ProductImage } from "@/components/commerce/ProductImage";
 
 export function StickyAddToCart({
   product,
@@ -39,10 +39,11 @@ export function StickyAddToCart({
     >
       <div className="container-page flex h-[68px] items-center gap-3">
         <div className="hidden size-12 shrink-0 overflow-hidden rounded-[var(--radius-sm)] sm:block">
-          <PlaceholderImage
-            label={product.shortName}
+          <ProductImage
+            product={product}
             ratio="1/1"
             className="rounded-none ring-0"
+            sizes="48px"
           />
         </div>
         <div className="min-w-0 flex-1">
