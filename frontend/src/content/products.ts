@@ -14,6 +14,12 @@ export type Product = {
   shortName: string;
   imageSrc: string;
   imageAlt: string;
+  pageImages: {
+    hero: { src: string; alt: string };
+    mechanism: { src: string; alt: string };
+    howto: { src: string; alt: string };
+    testimonial: { src: string; alt: string };
+  };
   subtitle: string;
   hook: string;
   causeNumber: 1 | 2 | 3;
@@ -92,6 +98,24 @@ export const products: Product[] = [
     shortName: "سيروم الأصول",
     imageSrc: "/products/redensyl-biotin-hair-serum.webp",
     imageAlt: "سيروم الأصول ريدنسل ٣٪ وبيوتين مع المكونات الفعالة",
+    pageImages: {
+      hero: {
+        src: "/product-pages/serum-hero.webp",
+        alt: "سيروم أصول ريدنسل ٣٪ وبيوتين على سطح فاخر مع مكونات فعالة وخلفية قبل وبعد خفيفة",
+      },
+      mechanism: {
+        src: "/product-pages/serum-mechanism.webp",
+        alt: "تصوير واقعي لآلية دعم بصيلات الشعر بسيروم أصول",
+      },
+      howto: {
+        src: "/product-pages/serum-howto.webp",
+        alt: "طريقة استخدام سيروم أصول على فروة الرأس",
+      },
+      testimonial: {
+        src: "/product-pages/testimonial-shared.webp",
+        alt: "صورة تجربة استخدام أصول في روتين يومي واقعي",
+      },
+    },
     subtitle: "لفراغات وتساقط الشعر",
     hook: "يشتغل على البصيلة، مو على الشعرة",
     causeNumber: 1,
@@ -249,6 +273,24 @@ export const products: Product[] = [
     shortName: "قطرات الأصول",
     imageSrc: "/products/iron-bisglycinate-drops.webp",
     imageAlt: "قطرات الأصول حديد بيسجليسينات ١٨ ملغ مع فيتامين سي وفولات وبي ١٢",
+    pageImages: {
+      hero: {
+        src: "/product-pages/iron-hero.webp",
+        alt: "قطرات حديد أصول بيسجليسينات ١٨ ملغ على سطح فاخر مع فيتامين سي وفولات وبي ١٢",
+      },
+      mechanism: {
+        src: "/product-pages/iron-mechanism.webp",
+        alt: "تصوير واقعي لمكونات قطرات حديد أصول ودعم مخزون الحديد",
+      },
+      howto: {
+        src: "/product-pages/iron-howto.webp",
+        alt: "طريقة استخدام قطرات حديد أصول مع الماء وفيتامين سي",
+      },
+      testimonial: {
+        src: "/product-pages/testimonial-shared.webp",
+        alt: "صورة تجربة استخدام أصول في روتين يومي واقعي",
+      },
+    },
     subtitle: "لدعم المخزون والطاقة",
     hook: "التساقط ما يوقف لو المخزون من جوّه فاضي",
     causeNumber: 2,
@@ -391,6 +433,24 @@ export const products: Product[] = [
     shortName: "أمبولة الأصول",
     imageSrc: "/products/pdrn-scalp-ampoule.webp",
     imageAlt: "أمبولة الأصول PDRN لترميم الفروة مع مكونات مهدئة للفروة",
+    pageImages: {
+      hero: {
+        src: "/product-pages/pdrn-hero.webp",
+        alt: "أمبولة أصول PDRN لترميم الفروة على سطح فاخر مع مكونات مهدئة وخلفية قبل وبعد خفيفة",
+      },
+      mechanism: {
+        src: "/product-pages/pdrn-mechanism.webp",
+        alt: "تصوير واقعي لترميم وتهدئة الفروة باستخدام PDRN من أصول",
+      },
+      howto: {
+        src: "/product-pages/pdrn-howto.webp",
+        alt: "طريقة استخدام أمبولة أصول PDRN مباشرة على فروة الرأس",
+      },
+      testimonial: {
+        src: "/product-pages/testimonial-shared.webp",
+        alt: "صورة تجربة استخدام أصول في روتين يومي واقعي",
+      },
+    },
     subtitle: "لفروة مرهقة وجذور ضعيفة",
     hook: "فروة متعبة ما تطلّع شعر قوي",
     causeNumber: 3,

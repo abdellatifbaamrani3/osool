@@ -1,17 +1,22 @@
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { ar } from "@/content/ar";
 import { home } from "@/content/home";
 import { products } from "@/content/products";
 import { Container } from "@/components/layout/Container";
+import { StickyMobileCta } from "@/components/layout/StickyMobileCta";
 import { TrustStrip } from "@/components/commerce/TrustStrip";
 import { ProductCard } from "@/components/commerce/ProductCard";
 import { Accordion } from "@/components/ui/Accordion";
 import { ButtonLink } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { Rating } from "@/components/ui/Rating";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SplitSection } from "@/components/sections/SplitSection";
+import { ComparisonTable } from "@/components/sections/ComparisonTable";
+import { CredentialsStrip } from "@/components/sections/CredentialsStrip";
+import { IngredientSpotlight } from "@/components/sections/IngredientSpotlight";
+import { QuickDiagnosis } from "@/components/sections/QuickDiagnosis";
 
 export default function HomePage() {
   return (
@@ -31,7 +36,7 @@ export default function HomePage() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink
-                href="#causes"
+                href="#quiz"
                 size="xl"
                 fullWidth
                 className="sm:w-auto"
@@ -50,21 +55,42 @@ export default function HomePage() {
                 {home.hero.secondaryCta}
               </ButtonLink>
             </div>
-            <p className="mt-5 text-body-sm text-muted">
-              {ar.brand.campaign}
-            </p>
+            <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2">
+              {home.hero.proofChips.map((chip) => (
+                <li
+                  key={chip}
+                  className="flex items-center gap-1.5 text-body-sm text-ink-soft"
+                >
+                  <Check className="size-4 shrink-0 text-brand-600" aria-hidden />
+                  {chip}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-body-sm text-muted">{ar.brand.campaign}</p>
           </div>
           <div className="order-1 lg:order-2">
-            <PlaceholderImage
-              label={home.hero.imageLabel}
-              ratio="4/5"
-              className="mx-auto max-w-md lg:max-w-none"
-            />
+            <div
+              className="relative mx-auto aspect-square max-w-md overflow-hidden rounded-[var(--radius-xl)] bg-brand-50 ring-1 ring-brand-100 lg:max-w-none"
+              aria-label={home.hero.imageLabel}
+              role="img"
+            >
+              <Image
+                src="/brand/home-hero-products.webp"
+                alt={home.hero.imageLabel}
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-contain"
+              />
+            </div>
           </div>
         </Container>
       </section>
 
       <TrustStrip />
+
+      {/* Pharmacy-grade authority */}
+      <CredentialsStrip />
 
       {/* Recognition */}
       <section className="section-pad bg-ivory">
@@ -133,6 +159,9 @@ export default function HomePage() {
           </p>
         </Container>
       </section>
+
+      {/* Interactive self-diagnosis */}
+      <QuickDiagnosis />
 
       {/* Products */}
       <section id="products" className="section-pad bg-ivory">
@@ -212,6 +241,9 @@ export default function HomePage() {
             </li>
           ))}
         </ol>
+        <p className="rounded-[var(--radius-md)] bg-gold-100 p-4 text-body-sm text-ink-soft">
+          {home.system.note}
+        </p>
         <ButtonLink
           href="/collection"
           variant="secondary"
@@ -221,6 +253,12 @@ export default function HomePage() {
           {home.system.cta}
         </ButtonLink>
       </SplitSection>
+
+      {/* Named actives with written concentrations */}
+      <IngredientSpotlight />
+
+      {/* Honest category comparison */}
+      <ComparisonTable />
 
       {/* Covered scalp — authority local insight */}
       <SplitSection
@@ -281,7 +319,7 @@ export default function HomePage() {
             eyebrow={home.authority.eyebrow}
             title={home.authority.title}
           />
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {home.authority.points.map((p) => (
               <article
                 key={p.title}
@@ -304,7 +342,7 @@ export default function HomePage() {
             sub={home.reviews.note}
           />
           <div className="mt-6 flex justify-center">
-            <Rating value={4.8} count={6} />
+            <Rating value={home.reviews.average} count={home.reviews.count} />
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-3">
             {home.reviews.items.map((r) => (
@@ -419,10 +457,7 @@ export default function HomePage() {
       {/* FAQ */}
       <section id="faq" className="section-pad bg-ivory">
         <Container>
-          <SectionHeading
-            eyebrow={home.faq.eyebrow}
-            title={home.faq.title}
-          />
+          <SectionHeading eyebrow={home.faq.eyebrow} title={home.faq.title} />
           <div className="mx-auto mt-10 max-w-2xl">
             <Accordion items={[...home.faq.items]} />
           </div>
@@ -450,6 +485,12 @@ export default function HomePage() {
           </p>
         </Container>
       </section>
+
+      <StickyMobileCta
+        href="#quiz"
+        label={ar.cta.stickyHome}
+        note={ar.cta.stickyHomeNote}
+      />
     </>
   );
 }

@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     CORS_ORIGINS: str
     ADMIN_TOKEN: str
+    ADMIN_DASHBOARD_USERNAME: str | None = None
+    ADMIN_DASHBOARD_PASSWORD: str | None = None
+    ADMIN_SESSION_SECRET: str | None = None
 
     SHEETS_WEBHOOK_URL: str | None = None
     SHEETS_WEBHOOK_SECRET: str | None = None
@@ -51,6 +54,9 @@ class Settings(BaseSettings):
     MAXMIND_LICENSE_KEY: str | None = None
     MAXMIND_API_KEY: str | None = None  # alias for MAXMIND_LICENSE_KEY
     ORDER_PHONE_WHITELIST: str | None = None
+    IP_INTEL_SECONDARY_PROVIDER: str = "disabled"
+    IP_INTEL_SECONDARY_API_URL: str | None = None
+    IP_INTEL_SECONDARY_API_KEY: str | None = None
 
     UPSELL_PRICE_SAR: int = 99
     UPSELL_WINDOW_SECONDS: int = 15
@@ -124,6 +130,10 @@ class Settings(BaseSettings):
             print("[osool] WARN: SNAP_CAPI_ACCESS_TOKEN not set — Snapchat server events disabled.")
         if not self.MAXMIND_ACCOUNT_ID or not self.maxmind_license_key:
             print("[osool] WARN: MaxMind credentials not set — geo/VPN order gate disabled.")
+        if not self.ADMIN_DASHBOARD_USERNAME or not self.ADMIN_DASHBOARD_PASSWORD:
+            print("[osool] WARN: admin dashboard login is disabled until credentials are set.")
+        if not self.ADMIN_SESSION_SECRET:
+            print("[osool] WARN: ADMIN_SESSION_SECRET missing — admin sessions will use ADMIN_TOKEN.")
 
 
 @lru_cache

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ar } from "@/content/ar";
 
 type Variant = "default" | "inverse" | "mark";
@@ -12,21 +13,23 @@ export function Logo({
 }) {
   const inverse = variant === "inverse";
   const markOnly = variant === "mark";
+  const markSrc = inverse ? "/brand/osool-mark-light.png" : "/brand/osool-mark-dark.png";
 
   const tile = (
     <span
-      className={`relative flex size-10 shrink-0 items-center justify-center rounded-full lg:size-11 ${
-        inverse ? "bg-gold-500" : "bg-brand-700"
+      className={`relative block size-10 shrink-0 overflow-hidden rounded-[14px] ring-1 lg:size-11 lg:rounded-2xl ${
+        inverse ? "ring-gold-500/30" : "shadow-[var(--shadow-sm)] ring-gold-500/25"
       }`}
       aria-hidden="true"
     >
-      <span
-        className={`translate-y-px text-[1.1rem] font-semibold leading-none ${
-          inverse ? "text-brand-900" : "text-gold-500"
-        }`}
-      >
-        O
-      </span>
+      <Image
+        src={markSrc}
+        alt=""
+        fill
+        sizes="44px"
+        className="object-cover"
+        priority
+      />
     </span>
   );
 
@@ -39,7 +42,7 @@ export function Logo({
   }
 
   return (
-    <Link href={href} className="inline-flex items-center gap-2.5">
+    <Link href={href} className="inline-flex items-center gap-3">
       {tile}
       <span className="flex flex-col leading-none">
         <span

@@ -1,4 +1,5 @@
 import { Container } from "@/components/layout/Container";
+import Image from "next/image";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 
 /**
@@ -11,6 +12,8 @@ export function SplitSection({
   title,
   children,
   imageLabel,
+  imageSrc,
+  imageAlt,
   dark = false,
   id,
   className = "",
@@ -20,6 +23,8 @@ export function SplitSection({
   title: string;
   children: React.ReactNode;
   imageLabel?: string;
+  imageSrc?: string;
+  imageAlt?: string;
   dark?: boolean;
   id?: string;
   className?: string;
@@ -36,12 +41,24 @@ export function SplitSection({
           }`}
         >
           <div className="order-1 lg:order-none">
-            <PlaceholderImage
-              label={imageLabel}
-              ratio="4/5"
-              dark={dark}
-              className="mx-auto max-w-md lg:max-w-none"
-            />
+            {imageSrc ? (
+              <div className="relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-[var(--radius-lg)] bg-sand-100 ring-1 ring-sand-200 lg:max-w-none">
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt ?? imageLabel ?? ""}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <PlaceholderImage
+                label={imageLabel}
+                ratio="4/5"
+                dark={dark}
+                className="mx-auto max-w-md lg:max-w-none"
+              />
+            )}
           </div>
 
           <div className="order-2 lg:order-none">

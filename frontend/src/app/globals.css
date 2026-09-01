@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-900: #0e2e27;
-  --color-brand-800: #103a31;
-  --color-brand-700: #14483c;
-  --color-brand-600: #1c6b55;
-  --color-brand-500: #2a8a6e;
-  --color-brand-100: #d6e7e0;
-  --color-brand-50: #eaf3ef;
+  /* Pharmacy Green — deep, clinical evergreen. Anchors headers/footer/CTAs. */
+  --color-brand-900: #0d322a;
+  --color-brand-800: #103d33;
+  --color-brand-700: #164a3d;
+  --color-brand-600: #1c6b55; /* Clinical Green — interactive */
+  --color-brand-500: #2a8a6e; /* Verified Green — trust/confirm cues */
+  --color-brand-100: #cfe6dd;
+  --color-brand-50: #e7f0eb; /* Clinical Sage — support surface */
+  /* Restrained Gold — a single premium accent per section, never the star. */
   --color-gold-600: #a9873f;
   --color-gold-500: #c2a15b;
   --color-gold-300: #dfcb9b;
   --color-gold-200: #efe3c8;
   --color-gold-100: #f7f0e1;
-  --color-ivory: #fbf8f3;
-  --color-sand-100: #f3eee6;
-  --color-sand-200: #e7dfd3;
+  /* Clinical neutrals — paper-white dominant for the pharmacy feel. */
+  --color-ivory: #fbfaf7;
+  --color-sand-100: #f1eee8;
+  --color-sand-200: #e4ddd2;
   --color-ink: #101a17;
   --color-ink-soft: #33413c;
   --color-muted: #6b7a74;

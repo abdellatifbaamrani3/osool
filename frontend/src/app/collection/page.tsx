@@ -10,7 +10,7 @@ import { ButtonLink } from "@/components/ui/Button";
 export const metadata: Metadata = {
   title: ar.nav.collection,
   description:
-    "ثلاث خطوات لعناية الفروة والجذور — سيروم، تونك، ومقشّر. اختار سببك أو ابدأ بالنظام الكامل.",
+    "ثلاث خطوات لعناية الفروة والجذور — سيروم، قطرات، وأمبولة. اختار سببك أو ابدأ بالنظام الكامل.",
 };
 
 export default function CollectionPage() {
@@ -39,11 +39,11 @@ export default function CollectionPage() {
           <div className="mt-12 rounded-[var(--radius-xl)] bg-brand-900 px-6 py-10 text-center md:px-10">
             <h2 className="text-h2 text-ivory">ما تدري وش سببك؟</h2>
             <p className="mx-auto mt-3 max-w-lg text-body-lg text-gold-200">
-              ابدأ بالنظام الكامل — سيروم + تونك + مقشّر. ضمان تجربة ٣٠ يوم ودفع
-              عند الاستلام.
+              ابدأ بالنظام الكامل — سيروم + قطرات + أمبولة. ضمان تجربة ٣٠ يوم
+              وطرق دفع مرنة.
             </p>
             <ButtonLink
-              href="/products/redensyl-copper-peptide-serum"
+              href="/products/redensyl-biotin-hair-serum"
               variant="gold"
               size="xl"
               className="mt-6"

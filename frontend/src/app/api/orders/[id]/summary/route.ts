@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { backendFetch } from "@/lib/backend-api";
 import { getOrder } from "@/lib/orders-store";
 import { maskPhoneLocal } from "@/lib/phone";
 
@@ -10,6 +11,17 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+  try {
+    const backend = await backendFetch(`/api/orders/${encodeURIComponent(id)}/summary`);
+    if (backend.ok) {
+      return NextResponse.json(await backend.json(), {
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
+  } catch (err) {
+    console.error("[order-summary] backend unavailable; using local fallback", err);
+  }
+
   const order = getOrder(id);
   if (!order) {
     return NextResponse.json(

@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import Link from "next/link";
 
 type Variant = "primary" | "secondary" | "ghost" | "gold";
@@ -32,23 +33,30 @@ type Common = {
   "data-cta"?: string;
 };
 
-export function Button({
-  variant = "primary",
-  size = "md",
-  fullWidth,
-  className = "",
-  children,
-  ...props
-}: Common & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export const Button = forwardRef<
+  HTMLButtonElement,
+  Common & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function Button(
+  {
+    variant = "primary",
+    size = "md",
+    fullWidth,
+    className = "",
+    children,
+    ...props
+  },
+  ref,
+) {
   return (
     <button
+      ref={ref}
       className={`${base} ${variants[variant]} ${sizes[size]} ${fullWidth ? "w-full" : ""} ${className}`}
       {...props}
     >
       {children}
     </button>
   );
-}
+});
 
 export function ButtonLink({
   href,

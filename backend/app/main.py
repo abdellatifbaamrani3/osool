@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.api.routes import health, products
+from app.api.routes import admin, analytics, health, orders, products
 from app.config import settings
 from app.core.errors import AppError, app_error_handler, http_error_handler, validation_error_handler
 
@@ -33,7 +33,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "PATCH"],
     allow_headers=["Content-Type", "Idempotency-Key"],
 )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
@@ -44,3 +44,6 @@ app.add_exception_handler(RequestValidationError, validation_error_handler)
 
 app.include_router(health.router)
 app.include_router(products.router)
+app.include_router(orders.router)
+app.include_router(analytics.router)
+app.include_router(admin.router)

@@ -1,5 +1,7 @@
 /** In-memory order store for the Next.js checkout API (local / demo). */
 
+import type { UpsellOffer } from "@/lib/upsell";
+
 export type StoredOrder = {
   id: string;
   order_number: string;
@@ -20,11 +22,13 @@ export type StoredOrder = {
     slug: string;
   }[];
   created_at: string;
+  upsell_offer: UpsellOffer;
+  upsell_expires_at: string;
+  upsell_accepted: boolean;
 };
 
 const g = globalThis as typeof globalThis & {
   __osoolOrders?: Map<string, StoredOrder>;
-  __osoolOrderSeq?: number;
 };
 
 function map() {
@@ -32,9 +36,15 @@ function map() {
   return g.__osoolOrders;
 }
 
+/**
+ * Unique across restarts/redeploys. A per-order time + random token means a
+ * new order can never reuse an existing `orderid`, so the Sheets webhook always
+ * appends a new row instead of overwriting an old one. Starts with `osool`.
+ */
 export function nextOrderNumber(): string {
-  g.__osoolOrderSeq = (g.__osoolOrderSeq ?? 10400) + 1;
-  return `OS-${g.__osoolOrderSeq}`;
+  const stamp = Date.now().toString(36).toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `osool-${stamp}${rand}`;
 }
 
 export function saveOrder(order: StoredOrder) {
@@ -43,4 +53,12 @@ export function saveOrder(order: StoredOrder) {
 
 export function getOrder(id: string) {
   return map().get(id) ?? null;
+}
+
+export function updateOrder(id: string, patch: Partial<StoredOrder>) {
+  const existing = map().get(id);
+  if (!existing) return null;
+  const next = { ...existing, ...patch };
+  map().set(id, next);
+  return next;
 }

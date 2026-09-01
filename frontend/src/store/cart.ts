@@ -94,7 +94,12 @@ export const useCart = create<CartState>()(
       removeLine: (key) =>
         set({ lines: get().lines.filter((l) => l.key !== key) }),
 
-      clear: () => set({ lines: [], isCartOpen: false, isCheckoutOpen: false }),
+      clear: () =>
+        set({
+          lines: [],
+          isCartOpen: false,
+          isCheckoutOpen: false,
+        }),
 
       totalSar: () =>
         get().lines.reduce((sum, l) => sum + l.unitPriceSar * l.bundles, 0),

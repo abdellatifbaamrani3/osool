@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Check, ShieldCheck } from "lucide-react";
@@ -19,7 +20,6 @@ import { LTR } from "@/components/ui/LTR";
 import { Rating } from "@/components/ui/Rating";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SplitSection } from "@/components/sections/SplitSection";
-import { ProductImage } from "@/components/commerce/ProductImage";
 import { useCart } from "@/store/cart";
 
 /**
@@ -32,6 +32,37 @@ function splitLeadingLatin(text: string): [string, string] {
   if (firstArabic <= 0 || !/^[A-Za-z]/.test(text)) return ["", text];
   const head = text.slice(0, firstArabic).replace(/[\s+\u2014\u2013-]+$/, "");
   return [head, text.slice(head.length)];
+}
+
+function PageImage({
+  src,
+  alt,
+  ratio = "1/1",
+  priority = false,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  ratio?: "1/1" | "4/5";
+  priority?: boolean;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative overflow-hidden rounded-[var(--radius-lg)] bg-white ring-1 ring-sand-200 ${
+        ratio === "1/1" ? "aspect-square" : "aspect-[4/5]"
+      } ${className}`}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority={priority}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        className="object-cover"
+      />
+    </div>
+  );
 }
 
 export function ProductPageClient({ product }: { product: Product }) {
@@ -77,8 +108,9 @@ export function ProductPageClient({ product }: { product: Product }) {
           <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="order-1 lg:order-2">
               <div className="relative">
-                <ProductImage
-                  product={product}
+                <PageImage
+                  src={product.pageImages.hero.src}
+                  alt={product.pageImages.hero.alt}
                   ratio="1/1"
                   className="mx-auto max-w-lg lg:max-w-none"
                   priority
@@ -235,6 +267,8 @@ export function ProductPageClient({ product }: { product: Product }) {
         eyebrow="كيف يشتغل"
         title={product.mechanismTitle}
         imageLabel={`آلية · ${product.shortName}`}
+        imageSrc={product.pageImages.mechanism.src}
+        imageAlt={product.pageImages.mechanism.alt}
       >
         <ol className="space-y-5">
           {product.mechanismSteps.map((s, i) => (
@@ -374,20 +408,28 @@ export function ProductPageClient({ product }: { product: Product }) {
             title={home.reviews.title}
             sub={home.reviews.note}
           />
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {home.reviews.items.slice(0, 6).map((r) => (
-              <article
-                key={r.name + r.week}
-                className="rounded-[var(--radius-lg)] bg-white p-5 ring-1 ring-sand-200"
-              >
-                <Rating value={r.stars} size="sm" />
-                <p className="mt-3 text-body text-ink-soft">{r.text}</p>
-                <p className="mt-4 text-body-sm font-medium text-brand-900">
-                  {r.name} · {r.city}
-                </p>
-                <p className="text-body-sm text-muted">{r.week}</p>
-              </article>
-            ))}
+          <div className="mt-10 grid items-start gap-6 lg:grid-cols-[0.9fr_1.3fr]">
+            <PageImage
+              src={product.pageImages.testimonial.src}
+              alt={product.pageImages.testimonial.alt}
+              ratio="4/5"
+              className="mx-auto w-full max-w-md lg:max-w-none"
+            />
+            <div className="grid gap-4 md:grid-cols-2">
+              {home.reviews.items.slice(0, 6).map((r) => (
+                <article
+                  key={r.name + r.week}
+                  className="rounded-[var(--radius-lg)] bg-white p-5 ring-1 ring-sand-200"
+                >
+                  <Rating value={r.stars} size="sm" />
+                  <p className="mt-3 text-body text-ink-soft">{r.text}</p>
+                  <p className="mt-4 text-body-sm font-medium text-brand-900">
+                    {r.name} · {r.city}
+                  </p>
+                  <p className="text-body-sm text-muted">{r.week}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </Container>
       </section>
@@ -432,6 +474,8 @@ export function ProductPageClient({ product }: { product: Product }) {
         eyebrow="طريقة الاستخدام"
         title={product.howtoTitle}
         imageLabel={`استخدام · ${product.shortName}`}
+        imageSrc={product.pageImages.howto.src}
+        imageAlt={product.pageImages.howto.alt}
         className="bg-ivory"
       >
         <ol className="space-y-3">

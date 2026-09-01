@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { products } from "@/content/products";
+import { NextResponse, after } from "next/server";
+import { getProduct, products } from "@/content/products";
 import {
   normalizeSaudiMobile,
   phoneForms,
@@ -10,6 +10,9 @@ import {
   isPhoneWhitelisted,
 } from "@/lib/maxmind";
 import { nextOrderNumber, saveOrder, type StoredOrder } from "@/lib/orders-store";
+import { sendOrderToSheet } from "@/lib/sheets-webhook";
+import { pickUpsell, upsellExpiresAt, upsellPriceFor } from "@/lib/upsell";
+import { backendFetch } from "@/lib/backend-api";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -26,7 +29,24 @@ type Body = {
   lines?: BodyLine[];
   honeypot?: string;
   event_id?: string;
+  upsell_accepted?: boolean;
+  upsell_slug?: string;
 };
+
+function forwardedHeaders(req: Request): Headers {
+  const headers = new Headers({ "Content-Type": "application/json" });
+  for (const name of [
+    "user-agent",
+    "cf-connecting-ip",
+    "x-forwarded-for",
+    "x-real-ip",
+    "true-client-ip",
+  ]) {
+    const value = req.headers.get(name);
+    if (value) headers.set(name, value);
+  }
+  return headers;
+}
 
 export async function POST(req: Request) {
   let body: Body;
@@ -117,6 +137,31 @@ export async function POST(req: Request) {
 
   const phones = phoneForms(national);
   const id = crypto.randomUUID();
+  const upsell = pickUpsell(items.map((i) => i.slug));
+  const expires = upsellExpiresAt();
+  let accepted = Boolean(body.upsell_accepted);
+
+  if (accepted) {
+    if (body.upsell_slug && body.upsell_slug !== upsell.slug) {
+      accepted = false;
+    } else {
+      const product = getProduct(upsell.slug);
+      if (product) {
+        const lineTotal = upsellPriceFor(product);
+        items.push({
+          product_short_name_ar: product.shortName,
+          offer_label_ar: "إكمال النظام · قطعة واحدة",
+          bundles: 1,
+          total_units: 1,
+          line_total_sar: lineTotal,
+          slug: product.slug,
+        });
+        subtotal += lineTotal;
+      } else {
+        accepted = false;
+      }
+    }
+  }
   const order: StoredOrder = {
     id,
     order_number: nextOrderNumber(),
@@ -130,9 +175,35 @@ export async function POST(req: Request) {
     currency: "SAR",
     items,
     created_at: new Date().toISOString(),
+    upsell_offer: upsell,
+    upsell_expires_at: expires,
+    upsell_accepted: accepted,
   };
 
   saveOrder(order);
+
+  try {
+    const backend = await backendFetch("/api/orders", {
+      method: "POST",
+      headers: forwardedHeaders(req),
+      body: JSON.stringify(body),
+    });
+    if (backend.ok) {
+      const payload = await backend.json();
+      after(() => sendOrderToSheet(order));
+      return NextResponse.json(payload, {
+        status: 201,
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
+    console.error(`[orders] backend persistence failed: HTTP ${backend.status}`);
+  } catch (err) {
+    console.error("[orders] backend persistence unavailable; using local fallback", err);
+  }
+
+  // Runs after the response is sent, but the runtime guarantees it completes —
+  // so the row (including any accepted upsell) always reaches Google Sheets.
+  after(() => sendOrderToSheet(order));
 
   return NextResponse.json(
     {
@@ -144,7 +215,8 @@ export async function POST(req: Request) {
       currency: order.currency,
       event_id: body.event_id ?? id,
       items: order.items,
-      upsell: null,
+      upsell,
+      upsell_expires_at: expires,
     },
     {
       status: 201,

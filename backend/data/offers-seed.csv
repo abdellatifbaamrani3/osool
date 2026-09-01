@@ -1,10 +1,10 @@
 product_slug,qty,price_sar,title_ar,duration_label_ar,badge_ar,is_default,sort_order,is_active
-redensyl-copper-peptide-serum,1,199,قطعة واحدة,تجربة شهر,,false,1,true
-redensyl-copper-peptide-serum,2,279,قطعتين,شهرين — المدة اللي الفرق يبان فيها,الأكثر طلباً,true,2,true
-redensyl-copper-peptide-serum,3,349,٣ قطع,٣ شهور — النتيجة الكاملة,أفضل قيمة,false,3,true
-iron-bisglycinate-vitamin-c-tonic,1,199,قطعة واحدة,تجربة شهر,,false,1,true
-iron-bisglycinate-vitamin-c-tonic,2,279,قطعتين,شهرين — المخزون يحتاج وقت,الأكثر طلباً,true,2,true
-iron-bisglycinate-vitamin-c-tonic,3,349,٣ قطع,٣ شهور — المدة الواقعية لترميم المخزون,أفضل قيمة,false,3,true
-salicylic-2-zinc-scalp-exfoliant,1,199,قطعة واحدة,تجربة شهر,,false,1,true
-salicylic-2-zinc-scalp-exfoliant,2,279,قطعتين,شهرين — استخدام أسبوعي,الأكثر طلباً,true,2,true
-salicylic-2-zinc-scalp-exfoliant,3,349,٣ قطع,٣ شهور — النتيجة الكاملة,أفضل قيمة,false,3,true
+redensyl-biotin-hair-serum,1,299,قطعة واحدة,شهر,,false,1,true
+redensyl-biotin-hair-serum,2,539,قطعتين,شهرين — المدة اللي الفرق يبان فيها,الأكثر طلباً,true,2,true
+redensyl-biotin-hair-serum,3,749,٣ قطع,٣ شهور — النتيجة الكاملة,أفضل قيمة,false,3,true
+iron-bisglycinate-drops,1,249,قطعة واحدة,شهر,,false,1,true
+iron-bisglycinate-drops,2,449,قطعتين,شهرين — المخزون يحتاج وقت,الأكثر طلباً,true,2,true
+iron-bisglycinate-drops,3,619,٣ قطع,٣ شهور — المدة الواقعية لترميم المخزون,أفضل قيمة,false,3,true
+pdrn-scalp-ampoule,1,269,قطعة واحدة,شهر,,false,1,true
+pdrn-scalp-ampoule,2,485,قطعتين,شهرين — الفروة تحتاج استمرارية,الأكثر طلباً,true,2,true
+pdrn-scalp-ampoule,3,669,٣ قطع,٣ شهور — النتيجة الكاملة,أفضل قيمة,false,3,true
