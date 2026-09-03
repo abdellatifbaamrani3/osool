@@ -36,24 +36,25 @@ export function OfferSelector({
             role="radio"
             aria-checked={selected}
             onClick={() => onChange(offer.qty)}
-            className={`relative rounded-[var(--radius-lg)] p-4 text-start transition-[border-color,box-shadow,background-color] duration-[var(--dur-fast)] ${
+            className={`relative flex flex-col justify-between rounded-[var(--radius-lg)] p-4 text-start transition-[border-color,box-shadow,background-color] duration-[var(--dur-fast)] cursor-pointer ${
               selected
                 ? dark
                   ? "border-2 border-gold-500 bg-brand-800 shadow-[var(--shadow-md)]"
-                  : "border-2 border-gold-500 bg-gold-100 shadow-[var(--shadow-md)]"
+                  : "border-2 border-gold-500 bg-gold-100/90 shadow-[var(--shadow-md)] ring-1 ring-gold-500/50"
                 : dark
                   ? "border border-white/15 bg-brand-800/60 hover:border-gold-500/40"
                   : "border border-sand-200 bg-white hover:border-brand-100 hover:shadow-[var(--shadow-sm)]"
             }`}
           >
             {offer.badge ? (
-              <span className="absolute -top-2 end-3 rounded-[var(--radius-pill)] bg-gold-500 px-2.5 py-0.5 text-label font-medium text-brand-900">
+              <span className="absolute -top-2.5 end-3 rounded-[var(--radius-pill)] bg-gold-500 px-2.5 py-0.5 text-xs font-bold text-brand-900 shadow-sm">
                 {offer.badge}
               </span>
             ) : null}
+
             <div className="flex items-start gap-3">
               <span
-                className={`mt-1 flex size-4 shrink-0 items-center justify-center rounded-full border-2 ${
+                className={`mt-1 flex size-4 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
                   selected
                     ? "border-gold-500 bg-gold-500"
                     : dark
@@ -66,41 +67,47 @@ export function OfferSelector({
                   <span className="size-1.5 rounded-full bg-brand-900" />
                 ) : null}
               </span>
+
               <div className="min-w-0 flex-1">
                 <p
-                  className={`text-body font-medium ${
+                  className={`text-body font-bold ${
                     dark ? "text-ivory" : "text-brand-900"
                   }`}
                 >
                   {offer.title}
                 </p>
                 <p
-                  className={`mt-0.5 text-body-sm ${
+                  className={`mt-0.5 text-body-sm font-medium ${
                     dark ? "text-gold-200" : "text-muted"
                   }`}
                 >
                   {offer.duration}
                 </p>
+              </div>
+            </div>
+
+            <div className="mt-4 border-t border-sand-200/50 pt-3">
+              <div className="flex items-baseline justify-between">
                 <p
-                  className={`mt-3 text-h3 tabular-nums ${
+                  className={`text-h3 font-bold tabular-nums ${
                     dark ? "text-ivory" : "text-brand-900"
                   }`}
                 >
                   <LTR>{offer.priceSar}</LTR> {ar.common.sar}
                 </p>
-                <p
-                  className={`text-body-sm ${
-                    dark ? "text-gold-300" : "text-muted"
-                  }`}
-                >
-                  <LTR>{perUnit}</LTR> {ar.common.sar} للقطعة
-                </p>
                 {save > 0 ? (
-                  <p className="mt-1 text-body-sm font-medium text-gold-600">
-                    توفير <LTR>{save}</LTR> {ar.common.sar}
-                  </p>
+                  <span className="rounded bg-gold-500/20 px-1.5 py-0.5 text-xs font-bold text-gold-600">
+                    وفر <LTR>{save}</LTR> ريال
+                  </span>
                 ) : null}
               </div>
+              <p
+                className={`mt-1 text-xs ${
+                  dark ? "text-gold-300" : "text-muted"
+                }`}
+              >
+                (<LTR>{perUnit}</LTR> {ar.common.sar} للقطعة)
+              </p>
             </div>
           </button>
         );

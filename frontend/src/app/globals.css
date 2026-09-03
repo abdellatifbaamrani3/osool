@@ -68,13 +68,37 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     background: var(--color-ivory);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* GPU layer promotion for sticky/fixed elements to eliminate scroll lag & repaints */
+  .sticky,
+  .fixed {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* In-page anchor targets should land below the sticky header, not tucked
+     under it or at the very top of the viewport. */
+  section[id] {
+    scroll-margin-top: 80px;
+  }
+
+  @media (min-width: 1024px) {
+    section[id] {
+      scroll-margin-top: 112px;
+    }
   }
 
   ::selection {

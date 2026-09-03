@@ -34,7 +34,9 @@ export async function GET(
     {
       id: order.id,
       order_number: order.order_number,
+      customer_name: order.customer_name,
       phone_masked: maskPhoneLocal(order.phone_national),
+      phone_local: order.phone_local,
       phone_e164: order.phone_e164,
       subtotal_sar: order.subtotal_sar,
       shipping_sar: order.shipping_sar,

@@ -12,7 +12,7 @@ import "./globals.css";
 
 const readex = Readex_Pro({
   subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-readex",
   display: "swap",
   adjustFontFallback: true,
@@ -59,6 +59,10 @@ export default function RootLayout({
       dir="rtl"
       className={`${readex.variable} ${arefRuqaa.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://api.osool.shop" />
+        <link rel="dns-prefetch" href="https://api.osool.shop" />
+      </head>
       <body className="flex min-h-full flex-col font-sans">
         <AnnouncementBar />
         <SiteHeader />

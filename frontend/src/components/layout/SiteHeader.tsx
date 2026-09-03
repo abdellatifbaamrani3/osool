@@ -25,7 +25,7 @@ export function SiteHeader() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-sand-200/80 bg-ivory/95 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-sand-200/80 bg-ivory/98 transform-gpu shadow-xs">
       <div className="container-page flex h-[60px] items-center justify-between gap-4 lg:h-[72px]">
         <Logo />
 

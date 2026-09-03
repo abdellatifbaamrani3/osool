@@ -22,7 +22,17 @@ export function StickyMobileCta({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > showAfter);
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isPast = window.scrollY > showAfter;
+          setVisible((prev) => (prev !== isPast ? isPast : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,7 +40,7 @@ export function StickyMobileCta({
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-sand-200 bg-ivory/95 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 backdrop-blur transition-transform duration-[var(--dur-base)] md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-sand-200 bg-ivory transform-gpu px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 transition-transform duration-[var(--dur-base)] md:hidden ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
       aria-hidden={!visible}

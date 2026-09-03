@@ -153,6 +153,8 @@ export function CheckoutModal() {
           `osool_order_${data.id}`,
           JSON.stringify({
             ...data,
+            customer_name: name.trim(),
+            created_at: new Date().toISOString(),
             phone_masked: national ? maskPhoneLocal(national) : undefined,
           }),
         );

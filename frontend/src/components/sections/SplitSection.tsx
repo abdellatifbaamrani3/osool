@@ -36,13 +36,13 @@ export function SplitSection({
     >
       <Container>
         <div
-          className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
+          className={`grid items-center gap-10 lg:grid-cols-2 lg:items-stretch lg:gap-16 ${
             reverse ? "lg:[&>*:first-child]:order-2" : ""
           }`}
         >
-          <div className="order-1 lg:order-none">
+          <div className="order-1 lg:order-none lg:h-full">
             {imageSrc ? (
-              <div className="relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-[var(--radius-lg)] bg-sand-100 ring-1 ring-sand-200 lg:max-w-none">
+              <div className="relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-[var(--radius-lg)] bg-sand-100 ring-1 ring-sand-200 lg:h-full lg:max-w-none lg:aspect-auto lg:min-h-[28rem]">
                 <Image
                   src={imageSrc}
                   alt={imageAlt ?? imageLabel ?? ""}
@@ -61,7 +61,7 @@ export function SplitSection({
             )}
           </div>
 
-          <div className="order-2 lg:order-none">
+          <div className="order-2 lg:order-none lg:flex lg:flex-col lg:justify-center">
             {eyebrow ? (
               <p
                 className={`mb-3 text-label font-medium tracking-wide ${

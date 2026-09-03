@@ -2,8 +2,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  compress: true,
   images: {
-    remotePatterns: [],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 86400,
   },
   experimental: {
     optimizePackageImports: ["lucide-react"],

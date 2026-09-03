@@ -1,4 +1,4 @@
-function trimSlash(url: string): string {
+ function trimSlash(url: string): string {
   return url.trim().replace(/\/+$/, "");
 }
 
@@ -33,9 +33,11 @@ export async function backendFetch(
 ): Promise<Response> {
   const headers = new Headers(init.headers);
   if (init.incomingCookie) headers.set("Cookie", init.incomingCookie);
+  const signal = init.signal ?? AbortSignal.timeout(4000);
   return fetch(`${backendBaseUrl()}${path}`, {
     ...init,
     headers,
+    signal,
     cache: "no-store",
   });
 }

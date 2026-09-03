@@ -1,6 +1,7 @@
 import { NextResponse, after } from "next/server";
 import { getProduct, products } from "@/content/products";
 import {
+  maskPhoneLocal,
   normalizeSaudiMobile,
   phoneForms,
   validateName,
@@ -209,6 +210,9 @@ export async function POST(req: Request) {
     {
       id: order.id,
       order_number: order.order_number,
+      customer_name: order.customer_name,
+      phone_masked: maskPhoneLocal(order.phone_national),
+      phone_local: order.phone_local,
       subtotal_sar: order.subtotal_sar,
       shipping_sar: order.shipping_sar,
       total_sar: order.total_sar,
