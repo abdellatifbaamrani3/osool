@@ -75,7 +75,7 @@ export default function HomePage() {
               role="img"
             >
               <Image
-                src="/brand/home-hero-products.webp"
+                src="/brand/home-hero.webp"
                 alt={home.hero.imageLabel}
                 fill
                 priority
@@ -119,6 +119,8 @@ export default function HomePage() {
         eyebrow={home.pain.eyebrow}
         title={home.pain.title}
         imageLabel={home.pain.imageLabel}
+        imageSrc={home.pain.imageSrc}
+        imageAlt={home.pain.imageAlt}
         className="bg-sand-100"
       >
         {home.pain.paragraphs.map((p) => (
@@ -199,6 +201,8 @@ export default function HomePage() {
         eyebrow={home.failed.eyebrow}
         title={home.failed.title}
         imageLabel={home.failed.imageLabel}
+        imageSrc={home.failed.imageSrc}
+        imageAlt={home.failed.imageAlt}
         className="bg-sand-100"
       >
         <div className="space-y-4">
@@ -223,6 +227,8 @@ export default function HomePage() {
         eyebrow={home.system.eyebrow}
         title={home.system.title}
         imageLabel={home.system.imageLabel}
+        imageSrc={home.system.imageSrc}
+        imageAlt={home.system.imageAlt}
       >
         <ol className="space-y-5">
           {home.system.steps.map((s) => (
@@ -266,6 +272,8 @@ export default function HomePage() {
         eyebrow={home.coveredScalp.eyebrow}
         title={home.coveredScalp.title}
         imageLabel={home.coveredScalp.imageLabel}
+        imageSrc={home.coveredScalp.imageSrc}
+        imageAlt={home.coveredScalp.imageAlt}
         dark
       >
         <p>{home.coveredScalp.body}</p>
@@ -368,6 +376,8 @@ export default function HomePage() {
         eyebrow={home.founder.eyebrow}
         title={home.founder.title}
         imageLabel={home.founder.imageLabel}
+        imageSrc={home.founder.imageSrc}
+        imageAlt={home.founder.imageAlt}
       >
         {home.founder.paragraphs.map((p) => (
           <p key={p}>{p}</p>
@@ -438,6 +448,8 @@ export default function HomePage() {
         eyebrow={home.guarantee.eyebrow}
         title={home.guarantee.title}
         imageLabel={home.guarantee.imageLabel}
+        imageSrc={home.guarantee.imageSrc}
+        imageAlt={home.guarantee.imageAlt}
         className="bg-sand-100"
       >
         <p>{home.guarantee.body}</p>

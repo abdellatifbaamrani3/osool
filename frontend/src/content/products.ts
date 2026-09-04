@@ -112,8 +112,8 @@ export const products: Product[] = [
         alt: "طريقة استخدام سيروم أصول على فروة الرأس",
       },
       testimonial: {
-        src: "/product-pages/testimonial-shared.webp",
-        alt: "صورة تجربة استخدام أصول في روتين يومي واقعي",
+        src: "/product-pages/serum-testimonial.webp",
+        alt: "تجربة استخدام سيروم أصول لتقوية الشعر وتقليل التساقط في روتين يومي واقعي",
       },
     },
     subtitle: "لفراغات وتساقط الشعر",
@@ -287,8 +287,8 @@ export const products: Product[] = [
         alt: "طريقة استخدام قطرات حديد أصول مع الماء وفيتامين سي",
       },
       testimonial: {
-        src: "/product-pages/testimonial-shared.webp",
-        alt: "صورة تجربة استخدام أصول في روتين يومي واقعي",
+        src: "/product-pages/iron-testimonial.webp",
+        alt: "تجربة استخدام قطرات حديد أصول لدعم المخزون والطاقة في روتين يومي واقعي",
       },
     },
     subtitle: "لدعم المخزون والطاقة",
@@ -447,8 +447,8 @@ export const products: Product[] = [
         alt: "طريقة استخدام أمبولة أصول PDRN مباشرة على فروة الرأس",
       },
       testimonial: {
-        src: "/product-pages/testimonial-shared.webp",
-        alt: "صورة تجربة استخدام أصول في روتين يومي واقعي",
+        src: "/product-pages/pdrn-testimonial.webp",
+        alt: "تجربة استخدام أمبولة أصول PDRN لترميم وتهدئة الفروة في روتين يومي واقعي",
       },
     },
     subtitle: "لفروة مرهقة وجذور ضعيفة",

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Check, Clock } from "lucide-react";
 import { home } from "@/content/home";
 import { ar } from "@/content/ar";
 import { Container } from "@/components/layout/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { ButtonLink } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
@@ -19,7 +19,15 @@ export default function AboutPage() {
       {/* Story */}
       <section className="section-pad bg-ivory">
         <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <PlaceholderImage label={home.founder.imageLabel} ratio="4/5" />
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[var(--radius-lg)] bg-sand-100 ring-1 ring-sand-200 lg:max-w-none">
+            <Image
+              src={home.founder.imageSrc}
+              alt={home.founder.imageAlt}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
           <div>
             <SectionHeading
               align="start"

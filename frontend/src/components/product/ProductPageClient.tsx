@@ -749,6 +749,8 @@ export function ProductPageClient({ product }: { product: Product }) {
         eyebrow={home.guarantee.eyebrow}
         title={home.guarantee.title}
         imageLabel={home.guarantee.imageLabel}
+        imageSrc={home.guarantee.imageSrc}
+        imageAlt={home.guarantee.imageAlt}
         className="bg-sand-100"
       >
         <p className="text-body-lg leading-relaxed">{home.guarantee.body}</p>
