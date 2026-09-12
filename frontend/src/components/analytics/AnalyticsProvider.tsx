@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { getProduct } from "@/content/products";
+import { firePageView, fireViewContent, initTracking } from "@/lib/tracking";
 
 const SESSION_KEY = "osool_admin_analytics_session";
 
@@ -68,8 +70,18 @@ export function AnalyticsProvider() {
   const search = useSearchParams();
 
   useEffect(() => {
+    initTracking();
+  }, []);
+
+  useEffect(() => {
     send("page_view");
-    if (productSlug(pathname)) send("product_view");
+    firePageView(pathname);
+    const slug = productSlug(pathname);
+    if (slug) {
+      send("product_view");
+      const product = getProduct(slug);
+      if (product) fireViewContent(product.sku, product.shortName, product.basePriceSar);
+    }
   }, [pathname, search]);
 
   useEffect(() => {

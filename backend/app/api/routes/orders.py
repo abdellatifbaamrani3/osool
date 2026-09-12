@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from pydantic import BaseModel, Field
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -17,6 +17,7 @@ from app.database import get_db
 from app.models.enums import ItemKind, OrderStatus, PaymentMethod
 from app.models.order import Order, OrderItem
 from app.models.product import Offer, Product
+from app.services.capi.dispatcher import send_purchase
 from app.services.ip_intel import check_ip
 
 router = APIRouter(prefix="/api", tags=["orders"])
@@ -38,6 +39,29 @@ class OrderIn(BaseModel):
     event_id: str | None = None
     upsell_accepted: bool = False
     upsell_slug: str | None = None
+    attribution: dict[str, Any] = Field(default_factory=dict)
+
+
+def _cookie(header: str | None, name: str) -> str | None:
+    if not header:
+        return None
+    prefix = name + "="
+    for part in header.split(";"):
+        item = part.strip()
+        if item.startswith(prefix):
+            value = item[len(prefix) :].strip()
+            return value or None
+    return None
+
+
+def _attribution(payload: OrderIn, request: Request) -> dict[str, Any]:
+    cookie = request.headers.get("cookie")
+    incoming = {k: v for k, v in payload.attribution.items() if v}
+    incoming.setdefault("fbp", _cookie(cookie, "_fbp"))
+    incoming.setdefault("fbc", _cookie(cookie, "_fbc"))
+    incoming.setdefault("ttp", _cookie(cookie, "_ttp"))
+    incoming.setdefault("sc_cookie1", _cookie(cookie, "_scid"))
+    return {k: v for k, v in incoming.items() if v}
 
 
 def _normalize_saudi_mobile(raw: str) -> tuple[str, str]:
@@ -124,6 +148,7 @@ async def _load_order(db: AsyncSession, order_id: str) -> Order:
 async def create_order(
     payload: OrderIn,
     request: Request,
+    background: BackgroundTasks,
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
     if not payload.lines:
@@ -164,6 +189,7 @@ async def create_order(
         event_id=payload.event_id or str(uuid.uuid4()),
         client_ip=intel.ip,
         user_agent=request.headers.get("user-agent"),
+        attribution=_attribution(payload, request),
         risk_flag="geo_skipped" if intel.skipped else None,
     )
 
@@ -220,6 +246,7 @@ async def create_order(
     db.add(order)
     await db.commit()
     await db.refresh(order)
+    background.add_task(send_purchase, order.id)
 
     items = [
         {

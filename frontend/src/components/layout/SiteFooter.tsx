@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { ar } from "@/content/ar";
 import { Logo } from "@/components/ui/Logo";
+import { LTR } from "@/components/ui/LTR";
 import { Container } from "./Container";
 
 type FooterGroup = {
@@ -92,6 +93,12 @@ export function SiteFooter() {
           <p className="mt-5 max-w-xs text-body-sm text-gold-200">
             {ar.footer.blurb}
           </p>
+          <a
+            href={`mailto:${ar.footer.email}`}
+            className="mt-4 inline-block text-body-sm text-gold-200 hover:text-ivory"
+          >
+            {ar.footer.emailLabel}: <LTR>{ar.footer.email}</LTR>
+          </a>
         </div>
 
         {groups.map((group) => (

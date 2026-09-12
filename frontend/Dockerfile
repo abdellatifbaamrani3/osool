@@ -33,10 +33,18 @@ RUN npm run build
 
 FROM node:22-alpine AS runner
 WORKDIR /app
+# Pixel IDs are public. Keep them at runtime so /api/tracking/config can
+# serve them even when they were not inlined into the client bundle.
+ARG NEXT_PUBLIC_META_PIXEL_ID
+ARG NEXT_PUBLIC_TIKTOK_PIXEL_CODE
+ARG NEXT_PUBLIC_SNAP_PIXEL_ID
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \
-    HOSTNAME=0.0.0.0
+    HOSTNAME=0.0.0.0 \
+    NEXT_PUBLIC_META_PIXEL_ID=$NEXT_PUBLIC_META_PIXEL_ID \
+    NEXT_PUBLIC_TIKTOK_PIXEL_CODE=$NEXT_PUBLIC_TIKTOK_PIXEL_CODE \
+    NEXT_PUBLIC_SNAP_PIXEL_ID=$NEXT_PUBLIC_SNAP_PIXEL_ID
 
 RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
 

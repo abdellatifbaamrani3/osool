@@ -62,6 +62,9 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://api.osool.shop" />
         <link rel="dns-prefetch" href="https://api.osool.shop" />
+        <link rel="preconnect" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
+        <link rel="dns-prefetch" href="https://sc-static.net" />
       </head>
       <body className="flex min-h-full flex-col font-sans">
         <AnnouncementBar />

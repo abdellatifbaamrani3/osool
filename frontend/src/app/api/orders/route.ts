@@ -32,6 +32,7 @@ type Body = {
   event_id?: string;
   upsell_accepted?: boolean;
   upsell_slug?: string;
+  attribution?: Record<string, string>;
 };
 
 function forwardedHeaders(req: Request): Headers {
@@ -42,6 +43,7 @@ function forwardedHeaders(req: Request): Headers {
     "x-forwarded-for",
     "x-real-ip",
     "true-client-ip",
+    "cookie",
   ]) {
     const value = req.headers.get(name);
     if (value) headers.set(name, value);

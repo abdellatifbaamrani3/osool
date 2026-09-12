@@ -221,6 +221,8 @@ export const ar = {
     copyright: "© أصول. جميع الحقوق محفوظة.",
     vat: "الأسعار شاملة ضريبة القيمة المضافة.",
     crPlaceholder: "السجل التجاري يُضاف عند الإصدار",
+    email: "contact@osool.shop",
+    emailLabel: "البريد",
   },
   whatsapp: {
     label: "واتساب",

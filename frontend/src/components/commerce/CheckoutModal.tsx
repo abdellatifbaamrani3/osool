@@ -14,6 +14,7 @@ import {
   validateName,
 } from "@/lib/phone";
 import { pickUpsell, type UpsellOffer } from "@/lib/upsell";
+import { firePurchase, getAttribution } from "@/lib/tracking";
 import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
@@ -131,6 +132,7 @@ export function CheckoutModal() {
           honeypot,
           event_id: eventId,
           client_ts: new Date(openedAt).toISOString(),
+          attribution: getAttribution(),
         }),
         signal: AbortSignal.timeout(20000),
       });
@@ -138,6 +140,11 @@ export function CheckoutModal() {
       const data = (await res.json()) as {
         id?: string;
         message_ar?: string;
+        event_id?: string;
+        order_number?: string;
+        total_sar?: number;
+        currency?: string;
+        items?: { slug?: string }[];
       };
 
       if (!res.ok || !data.id) {
@@ -146,6 +153,14 @@ export function CheckoutModal() {
         setUpsellOffer(null);
         return;
       }
+
+      firePurchase({
+        eventId: data.event_id || eventId,
+        value: data.total_sar ?? 0,
+        currency: data.currency || "SAR",
+        orderNumber: data.order_number,
+        contentIds: (data.items ?? []).map((item) => item.slug).filter(Boolean) as string[],
+      });
 
       try {
         const national = normalizeSaudiMobile(phone);
