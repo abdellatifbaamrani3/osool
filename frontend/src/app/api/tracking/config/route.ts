@@ -27,7 +27,8 @@ export function GET() {
     },
     {
       headers: {
-        "Cache-Control": "no-store",
+        "Cache-Control": "no-store, no-cache, must-revalidate",
+        "X-Robots-Tag": "noindex",
       },
     },
   );
