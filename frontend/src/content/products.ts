@@ -271,11 +271,11 @@ export const products: Product[] = [
     sku: "OSL-IRN-60",
     name: "قطرات حديد بيسجليسينات ١٨ ملغ",
     shortName: "قطرات الأصول",
-    imageSrc: "/products/iron-bisglycinate-drops.webp",
+    imageSrc: "/products/iron-bisglycinate-drops-osool.webp",
     imageAlt: "قطرات الأصول حديد بيسجليسينات ١٨ ملغ مع فيتامين سي وفولات وبي ١٢",
     pageImages: {
       hero: {
-        src: "/product-pages/iron-hero.webp",
+        src: "/product-pages/iron-hero-osool.webp",
         alt: "قطرات حديد أصول بيسجليسينات ١٨ ملغ على سطح فاخر مع فيتامين سي وفولات وبي ١٢",
       },
       mechanism: {
@@ -283,11 +283,11 @@ export const products: Product[] = [
         alt: "تصوير واقعي لمكونات قطرات حديد أصول ودعم مخزون الحديد",
       },
       howto: {
-        src: "/product-pages/iron-howto.webp",
+        src: "/product-pages/iron-howto-osool.webp",
         alt: "طريقة استخدام قطرات حديد أصول مع الماء وفيتامين سي",
       },
       testimonial: {
-        src: "/product-pages/iron-testimonial.webp",
+        src: "/product-pages/iron-testimonial-osool.webp",
         alt: "تجربة استخدام قطرات حديد أصول لدعم المخزون والطاقة في روتين يومي واقعي",
       },
     },
@@ -431,12 +431,12 @@ export const products: Product[] = [
     sku: "OSL-PDR-15",
     name: "أمبولة PDRN لترميم الفروة",
     shortName: "أمبولة الأصول",
-    imageSrc: "/products/pdrn-scalp-ampoule.webp",
+    imageSrc: "/products/pdrn-scalp-ampoule-osool.webp",
     imageAlt: "أمبولة الأصول PDRN لترميم الفروة مع مكونات مهدئة للفروة",
     pageImages: {
       hero: {
-        src: "/product-pages/pdrn-hero.webp",
-        alt: "أمبولة أصول PDRN لترميم الفروة على سطح فاخر مع مكونات مهدئة وخلفية قبل وبعد خفيفة",
+        src: "/product-pages/pdrn-hero-osool.webp",
+        alt: "أمبولة أصول PDRN لترميم الفروة مع مكونات مهدئة",
       },
       mechanism: {
         src: "/product-pages/pdrn-mechanism.webp",
@@ -447,7 +447,7 @@ export const products: Product[] = [
         alt: "طريقة استخدام أمبولة أصول PDRN مباشرة على فروة الرأس",
       },
       testimonial: {
-        src: "/product-pages/pdrn-testimonial.webp",
+        src: "/product-pages/pdrn-testimonial-osool.webp",
         alt: "تجربة استخدام أمبولة أصول PDRN لترميم وتهدئة الفروة في روتين يومي واقعي",
       },
     },
