@@ -101,7 +101,7 @@ export const products: Product[] = [
     pageImages: {
       hero: {
         src: "/product-pages/serum-hero.webp",
-        alt: "سيروم أصول ريدنسل ٣٪ وبيوتين على سطح فاخر مع مكونات فعالة وخلفية قبل وبعد خفيفة",
+        alt: "سيروم أصول ريدنسل ٣٪ وبيوتين على سطح رخامي مع مكوّنات فعالة",
       },
       mechanism: {
         src: "/product-pages/serum-mechanism.webp",
