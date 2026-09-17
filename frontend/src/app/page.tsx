@@ -75,11 +75,12 @@ export default function HomePage() {
               role="img"
             >
               <Image
-                src="/brand/home-hero.webp"
+                src="/brand/home-hero-osool.webp"
                 alt={home.hero.imageLabel}
                 fill
                 priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
+                unoptimized
+                sizes="(min-width: 1024px) 640px, 90vw"
                 className="object-contain"
               />
             </div>

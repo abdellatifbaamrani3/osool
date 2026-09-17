@@ -67,7 +67,8 @@ function PageImage({
         alt={alt}
         fill
         priority={priority}
-        sizes="(min-width: 1024px) 50vw, 100vw"
+        unoptimized
+        sizes="(min-width: 1024px) 560px, 90vw"
         className="object-cover"
       />
     </div>

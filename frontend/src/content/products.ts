@@ -96,11 +96,11 @@ export const products: Product[] = [
     sku: "OSL-SER-30",
     name: "سيروم ريدنسل ٣٪ وبيوتين",
     shortName: "سيروم الأصول",
-    imageSrc: "/products/redensyl-biotin-hair-serum.webp",
+    imageSrc: "/products/redensyl-biotin-hair-serum-osool.webp",
     imageAlt: "سيروم الأصول ريدنسل ٣٪ وبيوتين مع المكونات الفعالة",
     pageImages: {
       hero: {
-        src: "/product-pages/serum-hero.webp",
+        src: "/product-pages/serum-hero-osool.webp",
         alt: "سيروم أصول ريدنسل ٣٪ وبيوتين على سطح رخامي مع مكوّنات فعالة",
       },
       mechanism: {

@@ -28,6 +28,7 @@ export function ProductImage({
         alt={product.imageAlt || product.name}
         fill
         priority={priority}
+        unoptimized
         sizes={sizes}
         className="object-cover"
       />
