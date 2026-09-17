@@ -156,7 +156,7 @@ export const home = {
       },
     ],
     imageLabel: "مقارنة · تخمين مقابل تشخيص",
-    imageSrc: "/brand/home-failed.webp",
+    imageSrc: "/brand/home-failed-osool.webp",
     imageAlt: "تركيبة أصول والمكونات الفعالة",
   },
   system: {
@@ -181,7 +181,7 @@ export const home = {
     ],
     cta: "شوف النظام الكامل",
     imageLabel: "روتين أصول · ثلاث خطوات",
-    imageSrc: "/brand/home-system.webp",
+    imageSrc: "/brand/home-system-osool.webp",
     imageAlt: "روتين أصول · ثلاث خطوات",
     note: "الاستمرارية أهم من الكمية. منتج تستخدمه ٩٠ يوم أفضل من ثلاثة تنساهم بعد أسبوعين.",
   },
@@ -447,7 +447,7 @@ export const home = {
     ],
     cta: "اقرأ قصتنا",
     imageLabel: "قصة أصول · من الأصل",
-    imageSrc: "/brand/home-founder.webp",
+    imageSrc: "/brand/home-founder-osool.webp",
     imageAlt: "قصة أصول · خبيرة صيدلانية سعودية",
   },
   expectations: {
@@ -485,7 +485,7 @@ export const home = {
       "ما نحفظ بيانات بطاقتك — الدفع عبر بوابة آمنة",
     ],
     imageLabel: "ضمان ٣٠ يوم · ثقة بدون ضغط",
-    imageSrc: "/brand/home-guarantee.webp",
+    imageSrc: "/brand/home-guarantee-osool.webp",
     imageAlt: "ضمان 30 يوم وتغليف أصول المحايد",
   },
   faq: {
