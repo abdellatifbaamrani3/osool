@@ -19,9 +19,13 @@ import { useCart } from "@/store/cart";
 import { Button } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
 import { UpsellModal } from "./UpsellModal";
+import { isLaunchPath } from "@/lib/snapSafe";
+import { usePathname } from "next/navigation";
 
 export function CheckoutModal() {
   const router = useRouter();
+  const pathname = usePathname();
+  const snapSafe = isLaunchPath(pathname);
   const {
     lines,
     isCheckoutOpen,
@@ -103,6 +107,11 @@ export function CheckoutModal() {
       return;
     }
     if (lines.length === 0) return;
+
+    if (snapSafe) {
+      void placeOrder(false);
+      return;
+    }
 
     setUpsellOffer(pickUpsell(lines.map((l) => l.slug)));
   }

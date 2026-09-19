@@ -11,6 +11,8 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { LTR } from "@/components/ui/LTR";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { ProductImage } from "@/components/commerce/ProductImage";
+import { isLaunchPath, launchPackshotSrc } from "@/lib/snapSafe";
+import { usePathname } from "next/navigation";
 
 export function CartDrawer() {
   const {
@@ -24,6 +26,8 @@ export function CartDrawer() {
     totalSar,
     itemCount,
   } = useCart();
+  const pathname = usePathname();
+  const snapSafe = isLaunchPath(pathname);
 
   const [addedSlug, setAddedSlug] = useState<string | null>(null);
 
@@ -44,7 +48,9 @@ export function CartDrawer() {
 
   const total = totalSar();
   const count = itemCount();
-  const crossSell = getCrossSellProducts(lines.map((l) => l.slug));
+  const crossSell = snapSafe
+    ? []
+    : getCrossSellProducts(lines.map((l) => l.slug));
   const missingCount = new Set(
     products.map((p) => p.slug).filter((s) => !lines.some((l) => l.slug === s)),
   ).size;
@@ -84,10 +90,12 @@ export function CartDrawer() {
               <ShoppingBag className="size-12 text-sand-200" aria-hidden />
               <p className="mt-4 text-h3 text-brand-900">{ar.cart.empty}</p>
               <p className="mt-2 max-w-xs text-body text-ink-soft">
-                {ar.cart.emptySub}
+                {snapSafe
+                  ? "أضف سيروم أصول من هذه الصفحة."
+                  : ar.cart.emptySub}
               </p>
               <ButtonLink
-                href="/collection"
+                href={snapSafe ? "/launch" : "/collection"}
                 className="mt-6"
                 onClick={closeCart}
               >
@@ -108,6 +116,12 @@ export function CartDrawer() {
                         {product ? (
                           <ProductImage
                             product={product}
+                            src={
+                              snapSafe
+                                ? launchPackshotSrc(product.slug, product.imageSrc)
+                                : undefined
+                            }
+                            alt={snapSafe ? "سيروم أصول" : undefined}
                             ratio="1/1"
                             className="rounded-none ring-0"
                             sizes="64px"
@@ -178,6 +192,7 @@ export function CartDrawer() {
                 })}
               </ul>
 
+              {snapSafe ? null : (
               <div className="mt-6">
                 {crossSell.length > 0 ? (
                   <>
@@ -262,6 +277,7 @@ export function CartDrawer() {
                   </div>
                 )}
               </div>
+              )}
 
               <ul className="mt-6 space-y-2 text-body-sm text-brand-700">
                 <li className="flex items-center gap-2">
@@ -305,7 +321,7 @@ export function CartDrawer() {
             <Banknote className="size-4" aria-hidden />
             {ar.cart.codNote}
           </p>
-          {lines.length === 0 ? null : (
+          {lines.length === 0 || snapSafe ? null : (
             <p className="mt-2 text-center">
               <Link
                 href="/collection"

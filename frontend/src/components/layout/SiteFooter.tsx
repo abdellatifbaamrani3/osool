@@ -4,9 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { ar } from "@/content/ar";
+import { launch } from "@/content/launch";
 import { Logo } from "@/components/ui/Logo";
 import { LTR } from "@/components/ui/LTR";
 import { Container } from "./Container";
+import { isLaunchPath } from "@/lib/snapSafe";
+import { usePathname } from "next/navigation";
 
 type FooterGroup = {
   id: string;
@@ -85,13 +88,19 @@ function FooterAccordion({ group }: { group: FooterGroup }) {
 }
 
 export function SiteFooter() {
+  const pathname = usePathname();
+  const snapSafe = isLaunchPath(pathname);
+  const visibleGroups = snapSafe
+    ? groups.filter((g) => g.id === "policies")
+    : groups;
+
   return (
     <footer className="bg-brand-900 text-ivory">
       <Container className="section-pad grid gap-0 md:grid-cols-2 md:gap-10 lg:grid-cols-4">
         <div className="mb-6 md:mb-0 lg:col-span-1">
-          <Logo variant="inverse" />
+          <Logo variant="inverse" href={snapSafe ? "/launch" : "/"} />
           <p className="mt-5 max-w-xs text-body-sm text-gold-200">
-            {ar.footer.blurb}
+            {snapSafe ? launch.footerBlurb : ar.footer.blurb}
           </p>
           <a
             href={`mailto:${ar.footer.email}`}
@@ -101,7 +110,7 @@ export function SiteFooter() {
           </a>
         </div>
 
-        {groups.map((group) => (
+        {visibleGroups.map((group) => (
           <FooterAccordion key={group.id} group={group} />
         ))}
       </Container>

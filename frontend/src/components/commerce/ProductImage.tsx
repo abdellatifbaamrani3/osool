@@ -8,12 +8,16 @@ const ratios = {
 
 export function ProductImage({
   product,
+  src,
+  alt,
   ratio = "1/1",
   className = "",
   priority = false,
   sizes = "(min-width: 1024px) 50vw, 100vw",
 }: {
   product: Pick<Product, "imageSrc" | "imageAlt" | "name">;
+  src?: string;
+  alt?: string;
   ratio?: keyof typeof ratios;
   className?: string;
   priority?: boolean;
@@ -24,8 +28,8 @@ export function ProductImage({
       className={`relative overflow-hidden rounded-[var(--radius-lg)] bg-white ring-1 ring-sand-200 ${ratios[ratio]} ${className}`}
     >
       <Image
-        src={product.imageSrc}
-        alt={product.imageAlt || product.name}
+        src={src ?? product.imageSrc}
+        alt={alt ?? (product.imageAlt || product.name)}
         fill
         priority={priority}
         unoptimized

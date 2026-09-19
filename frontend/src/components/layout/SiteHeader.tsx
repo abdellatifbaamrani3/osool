@@ -7,6 +7,8 @@ import { ar } from "@/content/ar";
 import { Logo } from "@/components/ui/Logo";
 import { useCart } from "@/store/cart";
 import { LTR } from "@/components/ui/LTR";
+import { isLaunchPath } from "@/lib/snapSafe";
+import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/collection", label: ar.nav.collection },
@@ -18,6 +20,8 @@ const links = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const snapSafe = isLaunchPath(pathname);
   const openCart = useCart((s) => s.openCart);
   const lines = useCart((s) => s.lines);
   const itemCount = lines.reduce((sum, l) => sum + l.bundles, 0);
@@ -27,28 +31,32 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-sand-200/80 bg-ivory/98 transform-gpu shadow-xs">
       <div className="container-page flex h-[60px] items-center justify-between gap-4 lg:h-[72px]">
-        <Logo />
+        <Logo href={snapSafe ? "/launch" : "/"} />
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="رئيسي">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-body-sm font-medium text-ink-soft transition-colors hover:text-brand-700"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
+        {snapSafe ? null : (
+          <nav className="hidden items-center gap-7 lg:flex" aria-label="رئيسي">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="text-body-sm font-medium text-ink-soft transition-colors hover:text-brand-700"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+        )}
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/collection"
-            className="hidden min-h-11 items-center rounded-[var(--radius-md)] bg-brand-700 px-4 text-body-sm font-medium text-ivory shadow-[var(--shadow-cta)] transition-colors hover:bg-brand-600 md:inline-flex"
-            data-cta="header-shop"
-          >
-            {ar.cta.seeProducts}
-          </Link>
+          {snapSafe ? null : (
+            <Link
+              href="/collection"
+              className="hidden min-h-11 items-center rounded-[var(--radius-md)] bg-brand-700 px-4 text-body-sm font-medium text-ivory shadow-[var(--shadow-cta)] transition-colors hover:bg-brand-600 md:inline-flex"
+              data-cta="header-shop"
+            >
+              {ar.cta.seeProducts}
+            </Link>
+          )}
           <button
             type="button"
             className="relative inline-flex size-11 items-center justify-center rounded-[var(--radius-md)] text-brand-800 hover:bg-brand-50"
@@ -63,23 +71,25 @@ export function SiteHeader() {
               </span>
             ) : null}
           </button>
-          <button
-            type="button"
-            className="inline-flex size-11 items-center justify-center rounded-[var(--radius-md)] text-brand-800 hover:bg-brand-50 lg:hidden"
-            aria-label={open ? ar.common.close : ar.nav.menu}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? (
-              <X className="size-5" aria-hidden />
-            ) : (
-              <Menu className="size-5" aria-hidden />
-            )}
-          </button>
+          {snapSafe ? null : (
+            <button
+              type="button"
+              className="inline-flex size-11 items-center justify-center rounded-[var(--radius-md)] text-brand-800 hover:bg-brand-50 lg:hidden"
+              aria-label={open ? ar.common.close : ar.nav.menu}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+            >
+              {open ? (
+                <X className="size-5" aria-hidden />
+              ) : (
+                <Menu className="size-5" aria-hidden />
+              )}
+            </button>
+          )}
         </div>
       </div>
 
-      {open ? (
+      {open && !snapSafe ? (
         <div className="border-t border-sand-200 bg-ivory lg:hidden">
           <nav className="container-page flex flex-col gap-1 py-3" aria-label="جوال">
             {links.map((l) => (
