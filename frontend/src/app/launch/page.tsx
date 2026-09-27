@@ -13,12 +13,26 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 export const metadata: Metadata = {
   title: launch.metaTitle,
   description: launch.metaDescription,
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://osool.shop/launch" },
   openGraph: {
     title: launch.metaTitle,
     description: launch.metaDescription,
     url: "https://osool.shop/launch",
-    images: [{ url: LAUNCH_SERUM_IMAGE }],
+    images: [
+      {
+        url: `https://osool.shop${LAUNCH_SERUM_IMAGE}`,
+        width: 1200,
+        height: 1200,
+        alt: launch.imageAlt,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: launch.metaTitle,
+    description: launch.metaDescription,
+    images: [`https://osool.shop${LAUNCH_SERUM_IMAGE}`],
   },
 };
 
@@ -27,7 +41,7 @@ export default function LaunchPage() {
     <>
       <section className="section-pad bg-ivory pb-10">
         <Container className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative mx-auto aspect-square w-full max-w-md overflow-hidden rounded-[var(--radius-xl)] bg-white ring-1 ring-sand-200 lg:max-w-none">
+          <div className="relative mx-auto aspect-square w-full max-w-[320px] sm:max-w-md overflow-hidden rounded-[var(--radius-xl)] bg-white ring-1 ring-sand-200 lg:max-w-none">
             <Image
               src={LAUNCH_SERUM_IMAGE}
               alt={launch.imageAlt}

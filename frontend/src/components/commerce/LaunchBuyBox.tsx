@@ -14,12 +14,25 @@ export function LaunchBuyBox() {
   const product = getProduct(LAUNCH_SERUM_SLUG);
   const addOffer = useCart((s) => s.addOffer);
   const [qty, setQty] = useState(
-    () => product?.offers.find((o) => o.isDefault)?.qty ?? 1,
+    () => product?.offers.find((o) => o.isDefault)?.qty ?? 2,
   );
 
+  const offers = useMemo(() => {
+    if (!product) return [];
+    return product.offers.map((o) => ({
+      ...o,
+      duration:
+        o.qty === 1
+          ? "تكفي شهر واحد"
+          : o.qty === 2
+            ? "تكفي شهرين"
+            : "تكفي ٣ شهور",
+    }));
+  }, [product]);
+
   const offer = useMemo(
-    () => product?.offers.find((o) => o.qty === qty) ?? product?.offers[0],
-    [product, qty],
+    () => offers.find((o) => o.qty === qty) ?? offers[0],
+    [offers, qty],
   );
 
   if (!product || !offer) return null;
@@ -40,7 +53,7 @@ export function LaunchBuyBox() {
     <>
       <div id="offer" className="rounded-[var(--radius-xl)] bg-white p-5 ring-1 ring-sand-200 md:p-6">
         <OfferSelector
-          offers={product.offers}
+          offers={offers}
           selectedQty={qty}
           onChange={setQty}
         />

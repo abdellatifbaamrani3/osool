@@ -3,8 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   compress: true,
-  async redirects() {
-    return [{ source: "/launsh", destination: "/launch", permanent: false }];
+  async rewrites() {
+    return [
+      { source: "/lunch", destination: "/launch" },
+      { source: "/launsh", destination: "/launch" },
+    ];
   },
   images: {
     formats: ["image/avif", "image/webp"],

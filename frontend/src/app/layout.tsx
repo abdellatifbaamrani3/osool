@@ -26,12 +26,13 @@ const arefRuqaa = Aref_Ruqaa({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://osool.shop"),
   title: {
     default: `${ar.brand.nameAr} | ${ar.brand.nameEn} — ${ar.brand.tagline}`,
     template: `%s | ${ar.brand.nameAr}`,
   },
   description:
-    "أصول — بيت سعودي للمكمّلات والعناية بالشعر يشتغل بمعايير صيدلية: مكوّنات مسمّاة، تراكيز مكتوبة على العلبة، شهادة تحليل عند الطلب، وضمان تجربة ٣٠ يوم. العلم قبل الوعد.",
+    "أصول — علامة سعودية متخصصة في العناية المتقدمة بالشعر وفروة الرأس: مكوّنات مسمّاة، تراكيز مكتوبة على العلبة، شهادة تحليل عند الطلب، وضمان تجربة ٣٠ يوم. العلم قبل الوعد.",
   manifest: "/site.webmanifest",
   icons: {
     icon: [
